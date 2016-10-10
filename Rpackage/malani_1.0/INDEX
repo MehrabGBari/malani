@@ -1,0 +1,7 @@
+Gsvmod                  G SVM models.
+dat                     A matrix of expression values.
+grp                     A vector of class labels for 'dat'.
+intGenes                Select initial gene list from original data
+                        matrix.
+malanidata              Dataset for malani package
+pairmod                 Find best performing pairs
