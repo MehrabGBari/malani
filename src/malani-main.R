@@ -24,7 +24,6 @@ tissues <- c("breast")# tumor type to be analyzed
 #("colon","kidney","liver","lung","ovary","pancreas","prostate","skin)
 nnodes <- 64# number of nodes for parallel processing
 nr <- FALSE ## map each gene expressions to N~(0,1)
-
 nfolds.1 <- 2
 nfolds.2 <- 10
 N = ncol(expProp)# number of genes
@@ -33,7 +32,7 @@ n.Panel <- N-1#
 n.ktop.panels <- floor(0.05*N)
 gene <- 1:N
 
-
+## generate expression matrix and label for each tumor type
 if(file.exists(paste(dataDir,"/",tissues,".R",sep = ""))){
   load(paste(dataDir,"/",tissues,".R",sep = ""))
 }else{
@@ -48,19 +47,17 @@ if(file.exists(paste(dataDir,"/",tissues,".R",sep = ""))){
   grp.status <- as.factor(grp.status)
   save(expProp,grp.status,grp.tissue,tissues,file = paste(dataDir,"/",tissues,".R",sep = ""))
 }
-
-
-
+## Test samples for inner and outter k-fold cross validation 
 test.id.1 <- rep(1:nfolds.1,len = S)[sample(S)]
 test.id.1 <- lapply(1:nfolds.1, function(x){which(test.id.1==x)})
 test.id.2 <- rep(1:nfolds.2,len = S)[sample(S)]
 test.id.2 <- lapply(1:nfolds.2, function(x){which(test.id.2==x)})
-
-# if(nr){
-#   expProp <- apply(expProp, 2, function(x){(x-mean(x))/sd(x)})
-#   expProp <- expProp + abs(min(expProp))
-# }
-
+## Normalizing the data matrix if it is needed.
+ if(nr){
+  expProp <- apply(expProp, 2, function(x){(x-mean(x))/sd(x)})
+  expProp <- expProp + abs(min(expProp))
+ }
+## prepare informations for save the results
 details <- paste(tissues,
                  "N panels length of N-1, top 5 percent panels are selected.",
                  "dot product of expressions","Normalization: ",nr, sep = "| "
