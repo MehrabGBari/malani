@@ -1,6 +1,6 @@
 Linking:
 
-Please use the canonical form https://CRAN.R-project.org/package=malani to link to this page.
+The package is online on CRAN at:  https://CRAN.R-project.org/package=malani
 
 /////////////////////////////////
 Package: malani
